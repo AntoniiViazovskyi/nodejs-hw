@@ -1,4 +1,5 @@
 import { HttpError } from 'http-errors';
+import { MongooseError } from 'mongoose';
 
 export const errorHandler = (err, req, res, next) => {
   console.error(err);
@@ -7,6 +8,14 @@ export const errorHandler = (err, req, res, next) => {
     return res.status(err.status).json({
       message: err.message || err.name,
     });
+  }
+
+  const isMongooseError =
+    err instanceof MongooseError.ValidationError ||
+    err instanceof MongooseError.CastError;
+
+  if (isMongooseError) {
+    return res.status(400).json({ message: err.message });
   }
 
   const isProd = process.env.NODE_ENV === 'production';
