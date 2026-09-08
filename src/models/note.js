@@ -20,6 +20,11 @@ const noteSchema = new Schema(
       default: 'Todo',
       enum: TAGS,
     },
+    userId: {
+      type: Schema.Types.ObjectId,
+      ref: 'User',
+      required: true,
+    },
   },
   { timestamps: true },
 );
@@ -30,6 +35,12 @@ noteSchema.index({ updatedAt: -1 });
 noteSchema.index({ tag: 1, createdAt: -1 });
 noteSchema.index({ tag: 1, updatedAt: -1 });
 
-export const noteSortFields = ['_id', 'tag', 'createdAt', 'updatedAt'];
+export const noteSortFields = [
+  '_id',
+  'tag',
+  'createdAt',
+  'updatedAt',
+  'userId',
+];
 
 export const Note = model('Note', noteSchema);
