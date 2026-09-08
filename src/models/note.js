@@ -30,6 +30,7 @@ const noteSchema = new Schema(
 );
 
 noteSchema.index({ tag: 1 });
+noteSchema.index({ tag: 1, userId: 1 });
 noteSchema.index({ createdAt: -1 });
 noteSchema.index({ updatedAt: -1 });
 noteSchema.index({ tag: 1, createdAt: -1 });

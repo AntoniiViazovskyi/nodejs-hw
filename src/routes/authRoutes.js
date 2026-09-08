@@ -15,16 +15,16 @@ import {
 const authRoutes = Router();
 
 authRoutes.post(
-  '/register',
+  '/auth/register',
   celebrate(registerUserSchema, { abortEarly: false }),
   registerUser,
 );
 authRoutes.post(
-  '/login',
+  '/auth/login',
   celebrate(loginUserSchema, { abortEarly: false }),
   loginUser,
 );
-authRoutes.post('/refresh', refreshUserSession);
-authRoutes.post('/logout', logoutUser);
+authRoutes.post('/auth/refresh', refreshUserSession);
+authRoutes.post('/auth/logout', logoutUser);
 
 export default authRoutes;
