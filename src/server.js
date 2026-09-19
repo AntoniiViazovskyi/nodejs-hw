@@ -10,6 +10,7 @@ import { logger } from './middleware/logger.js';
 import { notFoundHandler } from './middleware/notFoundHandler.js';
 import { errorHandler } from './middleware/errorHandler.js';
 import notesRoutes from './routes/notesRoutes.js';
+import userRoutes from './routes/userRoutes.js';
 
 const app = express();
 app.use(
@@ -27,13 +28,22 @@ app.use(cookieParser());
 
 app.use(notesRoutes);
 app.use(authRoutes);
+app.use(userRoutes);
 
 app.use(notFoundHandler);
 app.use(errors());
 app.use(errorHandler);
 
-await connectMongoDB();
+export const startServer = async () => {
+  await connectMongoDB();
 
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
-});
+  return app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
+  });
+};
+
+if (process.env.NODE_ENV !== 'test') {
+  await startServer();
+}
+
+export { app };

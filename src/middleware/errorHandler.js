@@ -1,5 +1,6 @@
 import { HttpError } from 'http-errors';
 import { MongooseError } from 'mongoose';
+import multer from 'multer';
 
 export const errorHandler = (err, req, res, next) => {
   console.error(err);
@@ -15,6 +16,10 @@ export const errorHandler = (err, req, res, next) => {
     err instanceof MongooseError.CastError;
 
   if (isMongooseError) {
+    return res.status(400).json({ message: err.message });
+  }
+
+  if (err instanceof multer.MulterError) {
     return res.status(400).json({ message: err.message });
   }
 
